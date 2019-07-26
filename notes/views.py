@@ -11,7 +11,7 @@ def index(request):
 
 @api_view(['GET', 'POST'])
 def note_list(request):
-    if request.method == 'GET'
+    if request.method == 'GET':
         list_of_notes = Note.objects.all()
         serializer_notes = NoteSerializer(list_of_notes, many=True)
         return Response(serializer_notes.data)
@@ -70,3 +70,14 @@ def user_details(request, user_id):
             return Response(serialized_user.data)
         else:
             return Response(serialized_user.errors)
+
+@api_view(['PUT'])
+def publish_note(request, note_id):
+    note = get_object_or_404(Note, pk=note_id)
+    note.is_published =  True
+    note.save()
+    return Response(status=200)
+
+        
+        
+
