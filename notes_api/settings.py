@@ -24,7 +24,7 @@ SECRET_KEY = 'vdzb!z99heg#(b8p)u%&rpy_fsoe)@vy-%#hrdcjjki69+2rk8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ggit-notes-api.azurewebsites.net', 'localhost', '*.girlsgoit.org']
 
 # Application definition
 
