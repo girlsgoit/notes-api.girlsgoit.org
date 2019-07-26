@@ -32,13 +32,15 @@ def username_is_unique(request):
     else:
         return Response(status=200)
         
-@api_view(["GET"])
+@api_view(["GET",'DELETE'])
 def note_details(request, note_id):
     note = get_object_or_404(Note, pk = note_id)
-
     if request.method == "GET":
         serialized_note = NoteSerializer(note)
         return Response(serialized_note.data)
+    else:
+        note.delete()
+        return Response(status= 200)
 
 @api_view(['GET'])
 def users(request):
