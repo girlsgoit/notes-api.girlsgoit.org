@@ -6,6 +6,7 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = GGITUser
         fields = ['username', 'first_name','last_name', 'settings']
+   
 
 class NoteElementSerializer(ModelSerializer):
     class Meta:
@@ -25,4 +26,12 @@ class NoteSerializer(ModelSerializer):
             NoteElement.objects.create(note=note, tag = note_data['tag'], content = note_data['content'])
         return note
 
-
+    def update(self, instance, validated_data):
+        instance.note_elements.all().delete()
+        instance.created_at = validated_data['created_at']
+        notes_data = validated_data.pop('note_elements')
+        
+        for note_data in notes_data:
+            NoteElement.objects.create(note=instance, tag = note_data['tag'], content = note_data['content'])
+        return instance
+    

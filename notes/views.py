@@ -11,7 +11,7 @@ def index(request):
 
 @api_view(['GET', 'POST'])
 def note_list(request):
-    if request.method == 'GET'
+    if request.method == 'GET':
         list_of_notes = Note.objects.all()
         serializer_notes = NoteSerializer(list_of_notes, many=True)
         return Response(serializer_notes.data)
@@ -32,12 +32,20 @@ def username_is_unique(request):
     else:
         return Response(status=200)
         
-@api_view(["GET",'DELETE'])
+@api_view(["GET",'DELETE', 'PUT'])
 def note_details(request, note_id):
     note = get_object_or_404(Note, pk = note_id)
+    serialized_note = NoteSerializer(note)
     if request.method == "GET":
-        serialized_note = NoteSerializer(note)
         return Response(serialized_note.data)
+    elif request.method == 'PUT':
+        request_data=request.data
+        serialized_note = NoteSerializer(note, request_data)    
+        if serialized_note.is_valid():
+            serialized_note.save()
+            return Response(serialized_note.data)
+        else:
+            return Response(serialized_note.errors)
     else:
         note.delete()
         return Response(status= 200)
@@ -70,3 +78,26 @@ def user_details(request, user_id):
             return Response(serialized_user.data)
         else:
             return Response(serialized_user.errors)
+
+@api_view(['PUT'])
+def publish_note(request, note_id):
+    note = get_object_or_404(Note, pk=note_id)
+    note.is_published =  True
+    note.save()
+    return Response(status=200)
+
+        
+        
+
+@api_view(['POST'])
+def register(request):
+    user_data = request.data
+    password = user_data['password']
+    register_serialized = UserSerializer(data=user_data)
+    if register_serialized.is_valid():
+        user_instance = register_serialized.save()
+        user_instance.set_password(password)
+        user_instance.save()
+        return Response(register_serialized.data, status = 201)
+    else:
+        return Response(register_serialized.errors, status= 406)
