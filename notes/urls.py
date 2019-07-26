@@ -10,7 +10,6 @@ urlpatterns = [
     path('users/', users, name = 'users'),
     path('users/<int:user_id>', user_details, name= 'user_details'),
     path('users/is-unique',username_is_unique, name = 'username_is_unique' ),
-    path('notes/<int:note_id>/publish',publish_note, name = 'publish_note' )
+    path('notes/<int:note_id>/publish',publish_note, name = 'publish_note' ),
     path('users/register', register, name= 'register'),
-    
 ]
