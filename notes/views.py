@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404, render
 
+
 def index(request):
     return HttpResponse('Hello Git')
 
@@ -45,3 +46,10 @@ def note_elements_list(request):
         list_of_elements = NoteElement.objects.all()
         serializer_elements = NoteElementSerializer(list_of_elements, many=True)
         return Response(serializer_elements.data)   
+
+@api_view(['GET'])
+def user_details(request, user_id):
+    user = get_object_or_404(GGITUser, pk=user_id)
+    if request.method == 'GET':
+        serialized_user = UserSerializer(user)
+        return Response(serialized_user.data)
