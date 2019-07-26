@@ -7,3 +7,8 @@ class GGITUser(AbstractUser):
 class Note(models.Model):  
     user = models.ForeignKey(GGITUser, on_delete = models.CASCADE, related_name="notes")
     created_at = models.DateField()
+
+class NoteElement(models.Model):
+    tag = models.TextField()
+    content = models.TextField()
+    note = models.ForeignKey(Note, on_delete = models.CASCADE, related_name="note_elements")
