@@ -1,1 +1,2 @@
-source ./antenv/bin/activate && python manage.py migrate && python manage.py createadmin
+python manage.py migrate
+python manage.py createadmin
