@@ -1,3 +1,3 @@
 python manage.py migrate
-sleep 10
+sleep 2m
 python manage.py createadmin
