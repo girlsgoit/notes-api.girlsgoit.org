@@ -11,7 +11,7 @@ def index(request):
 
 @api_view(['GET', 'POST'])
 def note_list(request):
-    if request.method == 'GET'
+    if request.method == 'GET':
         list_of_notes = Note.objects.all()
         serializer_notes = NoteSerializer(list_of_notes, many=True)
         return Response(serializer_notes.data)
@@ -70,3 +70,15 @@ def user_details(request, user_id):
             return Response(serialized_user.data)
         else:
             return Response(serialized_user.errors)
+@api_view(['POST'])
+def register(request):
+    user_data = request.data
+    password = user_data['password']
+    register_serialized = UserSerializer(data=user_data)
+    if register_serialized.is_valid():
+        user_instance = register_serialized.save()
+        user_instance.set_password(password)
+        user_instance.save()
+        return Response(register_serialized.data, status = 201)
+    else:
+        return Response(register_serialized.errors, status= 406)
