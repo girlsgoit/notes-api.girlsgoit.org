@@ -5,7 +5,7 @@ from .models import GGITUser
 class UserSerializer(ModelSerializer):
     class Meta:
         model = GGITUser
-        fields = '__all__'
+        fields = ['username', 'first_name','last_name', 'settings']
 
 class NoteElementSerializer(ModelSerializer):
     class Meta:
