@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import index, note_list, users, note_elements_list, note_details,user_details
+from .views import index, note_list, users, note_elements_list, note_details,user_details, username_is_unique
 
 urlpatterns = [
     path('', index, name='index'),
@@ -9,4 +9,6 @@ urlpatterns = [
     path('note-elements', note_elements_list, name ="note_elements_list"),
     path('users/', users, name = 'users'),
     path('users/<int:user_id>', user_details, name= 'user_details'),
+    path('users/is-unique',username_is_unique, name = 'username_is_unique' )
+    
 ]

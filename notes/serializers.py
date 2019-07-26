@@ -19,8 +19,3 @@ class NoteSerializer(ModelSerializer):
         fields = '__all__'
 
 
-
-
-
-
-
