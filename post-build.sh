@@ -1,0 +1,1 @@
+source ./antenv/bin/activate && python manage.py createadmin
