@@ -32,12 +32,20 @@ def username_is_unique(request):
     else:
         return Response(status=200)
         
-@api_view(["GET",'DELETE'])
+@api_view(["GET",'DELETE', 'PUT'])
 def note_details(request, note_id):
     note = get_object_or_404(Note, pk = note_id)
+    serialized_note = NoteSerializer(note)
     if request.method == "GET":
-        serialized_note = NoteSerializer(note)
         return Response(serialized_note.data)
+    elif request.method == 'PUT':
+        request_data=request.data
+        serialized_note = NoteSerializer(note, request_data)    
+        if serialized_note.is_valid():
+            serialized_note.save()
+            return Response(serialized_note.data)
+        else:
+            return Response(serialized_note.errors)
     else:
         note.delete()
         return Response(status= 200)
