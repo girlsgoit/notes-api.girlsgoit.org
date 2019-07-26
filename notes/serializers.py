@@ -7,16 +7,18 @@ class UserSerializer(ModelSerializer):
         model = GGITUser
         fields = '__all__'
 
-
-class NoteSerializer(ModelSerializer): 
-    class Meta: 
-        model = Note
-        fields = '__all__'
-
 class NoteElementSerializer(ModelSerializer):
     class Meta:
         model = NoteElement
         fields = '__all__'
+
+class NoteSerializer(ModelSerializer):
+    note_elements = NoteElementSerializer(many=True) 
+    class Meta: 
+        model = Note
+        fields = '__all__'
+
+
 
 
 
