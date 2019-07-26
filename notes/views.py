@@ -64,9 +64,29 @@ def note_elements_list(request):
         serializer_elements = NoteElementSerializer(list_of_elements, many=True)
         return Response(serializer_elements.data)   
 
-@api_view(['GET'])
+@api_view(['GET','PUT'])
 def user_details(request, user_id):
     user = get_object_or_404(GGITUser, pk=user_id)
     if request.method == 'GET':
         serialized_user = UserSerializer(user)
         return Response(serialized_user.data)
+    elif request.method == 'PUT':
+        request_data = request.data
+        serialized_user = UserSerializer(user, request_data)
+        if serialized_user.is_valid():
+            serialized_user.save()
+            return Response(serialized_user.data)
+        else:
+            return Response(serialized_user.errors)
+@api_view(['POST'])
+def register(request):
+    user_data = request.data
+    password = user_data['password']
+    register_serialized = UserSerializer(data=user_data)
+    if register_serialized.is_valid():
+        user_instance = register_serialized.save()
+        user_instance.set_password(password)
+        user_instance.save()
+        return Response(register_serialized.data, status = 201)
+    else:
+        return Response(register_serialized.errors, status= 406)
