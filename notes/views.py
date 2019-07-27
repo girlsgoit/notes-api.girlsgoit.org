@@ -2,7 +2,8 @@ from django.http import HttpResponse
 from .models import Note, GGITUser,NoteElement
 from .serializers import NoteSerializer, NoteElementSerializer, UserSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, render
 
 
@@ -10,6 +11,7 @@ def index(request):
     return HttpResponse('Hello Git')
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def note_list(request):
     if request.method == 'GET':
         list_of_notes = Note.objects.all()
@@ -17,7 +19,7 @@ def note_list(request):
         return Response(serializer_notes.data)
     elif request.method == "POST":       
         new_data = request.data
-        new_data["user"] = request.user
+        new_data["user"] = request.user.id
         if not new_data.get('note_elements'):
             new_data['note_elements'] = []
         
@@ -30,6 +32,7 @@ def note_list(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def username_is_unique(request):
     if GGITUser.objects.filter(username=request.data['username']).exists():
         return Response(status=400)
@@ -37,6 +40,7 @@ def username_is_unique(request):
         return Response(status=200)
         
 @api_view(["GET",'DELETE', 'PUT'])
+@permission_classes([IsAuthenticated])
 def note_details(request, note_id):
     note = get_object_or_404(Note, pk = note_id)
     serialized_note = NoteSerializer(note)
@@ -55,6 +59,7 @@ def note_details(request, note_id):
         return Response(status= 200)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def users(request):
    list_of_users = GGITUser.objects.all()
    serializer_list_of_users = UserSerializer(list_of_users, many = True)
@@ -62,6 +67,7 @@ def users(request):
     
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def note_elements_list(request):
      if request.method == 'GET':
         list_of_elements = NoteElement.objects.all()
@@ -69,6 +75,7 @@ def note_elements_list(request):
         return Response(serializer_elements.data)   
 
 @api_view(['GET','PUT'])
+@permission_classes([IsAuthenticated])
 def user_details(request, user_id):
     user = get_object_or_404(GGITUser, pk=user_id)
     if request.method == 'GET':
@@ -84,14 +91,12 @@ def user_details(request, user_id):
             return Response(serialized_user.errors)
 
 @api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def publish_note(request, note_id):
     note = get_object_or_404(Note, pk=note_id)
     note.is_published =  True
     note.save()
     return Response(status=200)
-
-        
-        
 
 @api_view(['POST'])
 def register(request):

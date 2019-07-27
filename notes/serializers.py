@@ -21,17 +21,16 @@ class NoteSerializer(ModelSerializer):
 
     def create(self, validated_data):
         notes_data = validated_data.pop('note_elements')
-        note = Note.objects.create(user=validated_data['user'], created_at = validated_data['created_at'])
+        note = Note.objects.create(user=validated_data['user'])
         for note_data in notes_data:
-            NoteElement.objects.create(note=note, tag = note_data['tag'], content = note_data['content'])
+            NoteElement.objects.create(note=note, tag=note_data['tag'], content=note_data['content'])
         return note
 
     def update(self, instance, validated_data):
         instance.note_elements.all().delete()
-        instance.created_at = validated_data['created_at']
         notes_data = validated_data.pop('note_elements')
         
         for note_data in notes_data:
-            NoteElement.objects.create(note=instance, tag = note_data['tag'], content = note_data['content'])
+            NoteElement.objects.create(note=instance, tag=note_data['tag'], content=note_data['content'])
         return instance
     
