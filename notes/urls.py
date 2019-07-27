@@ -1,7 +1,6 @@
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
-
-from .views import index, note_list, users, notes_public, note_elements_list, user_me, note_details,user_details, username_is_unique, publish_note, register
+from .views import index, note_list, users, note_elements_list, user_me, note_details,user_details, username_is_unique, publish_note, register, done_note, notes_public
 
 urlpatterns = [
     path('', index, name='index'),
@@ -16,4 +15,6 @@ urlpatterns = [
     path('users/login', obtain_auth_token, name='login'),
     path('users/me', user_me, name='user_me'),
     path('notes/public', notes_public, name= 'notes_public')
+    path('notes/<int:note_id>/done', done_note, name = 'done_note' ),
+    
 ]

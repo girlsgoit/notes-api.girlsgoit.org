@@ -6,7 +6,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404, render
 
-
 def index(request):
     return HttpResponse('Hello Git')
 
@@ -29,7 +28,6 @@ def note_list(request):
             return Response(note_serializer.data)
         else:
             return Response(note_serializer.errors)
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -65,7 +63,6 @@ def users(request):
    serializer_list_of_users = UserSerializer(list_of_users, many = True)
    return Response(serializer_list_of_users.data)
     
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def note_elements_list(request):
@@ -98,6 +95,15 @@ def publish_note(request, note_id):
     note.save()
     return Response(status=200)
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def done_note(request, note_id):
+    note = get_object_or_404(Note, pk=note_id)
+    note.is_done =  True
+    note.save()
+    serialized_done_note = NoteSerializer(note)
+    return Response(serialized_done_note.data,status=200)
+
 @api_view(['POST'])
 def register(request):
     user_data = request.data
@@ -117,6 +123,7 @@ def user_me(request):
     user_data = request.user
     serialized_user_me = UserSerializer(user_data)
     return Response(serialized_user_me.data)
+<<<<<<< Updated upstream
 
 @api_view(['GET'])
 def notes_public(request):
@@ -124,3 +131,5 @@ def notes_public(request):
     serialized_list_notes = NoteSerializer(list_notes, many=True)
     return Response(serialized_list_notes.data)
     
+=======
+>>>>>>> Stashed changes
