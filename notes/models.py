@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class GGITUser(AbstractUser):
     settings = models.TextField(blank=True)
-    full_name = models.TextField()
+    full_name = models.TextField(blank=True)
 
 class Note(models.Model):  
     user = models.ForeignKey(GGITUser, on_delete = models.CASCADE, related_name="notes")
