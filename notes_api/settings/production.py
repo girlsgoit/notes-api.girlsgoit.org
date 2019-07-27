@@ -4,7 +4,7 @@ DEBUG = False
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-ALLOWED_HOSTS = ['notes.girlsgoit.org', 'notes-api.girlsgoit.org', 'ggit-notes-api.azurewebsites.net']
+ALLOWED_HOSTS = ['notes.girlsgoit.org', 'notes-api.girlsgoit.org', 'ggit-notes-api.azurewebsites.net', 'localhost']
 CORS_ORIGIN_WHITELIST = ('notes.girlsgoit.org', 'notes-api.girlsgoit.org', 'ggit-notes-api.azurewebsites.net')
 CSRF_TRUSTED_ORIGINS = ['notes.girlsgoit.org', 'notes-api.girlsgoit.org']
 
