@@ -11,7 +11,7 @@ class UserSerializer(ModelSerializer):
 class NoteElementSerializer(ModelSerializer):
     class Meta:
         model = NoteElement
-        fields = '__all__'
+        exclude = ['note']
 
 class NoteSerializer(ModelSerializer):
     note_elements = NoteElementSerializer(many=True) 
