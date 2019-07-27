@@ -13,7 +13,7 @@ def index(request):
 @permission_classes([IsAuthenticated])
 def note_list(request):
     if request.method == 'GET':
-        list_of_notes = Note.objects.all()
+        list_of_notes = Note.objects.filter(user=request.user)
         serializer_notes = NoteSerializer(list_of_notes, many=True)
         return Response(serializer_notes.data)
     elif request.method == "POST":       
