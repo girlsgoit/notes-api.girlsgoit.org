@@ -30,7 +30,6 @@ def note_list(request):
             return Response(note_serializer.errors)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def username_is_unique(request):
     if GGITUser.objects.filter(username=request.data['username']).exists():
         return Response(status=400)
