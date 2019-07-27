@@ -5,13 +5,13 @@ from .models import GGITUser
 class UserSerializer(ModelSerializer):
     class Meta:
         model = GGITUser
-        fields = ['username', 'first_name','last_name', 'settings']
+        fields = ['id','username','full_name','settings']
    
 
 class NoteElementSerializer(ModelSerializer):
     class Meta:
         model = NoteElement
-        fields = '__all__'
+        exclude = ['note']
 
 class NoteSerializer(ModelSerializer):
     note_elements = NoteElementSerializer(many=True) 
