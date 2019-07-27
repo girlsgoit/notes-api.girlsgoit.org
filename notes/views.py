@@ -110,3 +110,9 @@ def register(request):
         return Response(register_serialized.data, status = 201)
     else:
         return Response(register_serialized.errors, status= 406)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_me(request):
+    user_data = request.user
+    serialized_user_me = UserSerializer(user_data)
+    return Response(serialized_user_me.data)
