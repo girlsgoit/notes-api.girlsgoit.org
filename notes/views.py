@@ -45,7 +45,8 @@ def note_details(request, note_id):
         return Response(serialized_note.data)
     elif request.method == 'PUT':
         request_data=request.data
-        serialized_note = NoteSerializer(note, request_data)    
+        request_data["user"] = request.user.id 
+        serialized_note = NoteSerializer(note, request_data)   
         if serialized_note.is_valid():
             serialized_note.save()
             return Response(serialized_note.data)
