@@ -117,3 +117,10 @@ def user_me(request):
     user_data = request.user
     serialized_user_me = UserSerializer(user_data)
     return Response(serialized_user_me.data)
+
+@api_view(['GET'])
+def notes_public(request):
+    list_notes = Note.objects.filter(is_published=True)
+    serialized_list_notes = NoteSerializer(list_notes, many=True)
+    return Response(serialized_list_notes.data)
+    
