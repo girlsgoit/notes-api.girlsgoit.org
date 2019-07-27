@@ -14,7 +14,7 @@ urlpatterns = [
     path('users/register', register, name= 'register'),
     path('users/login', obtain_auth_token, name='login'),
     path('users/me', user_me, name='user_me'),
-    path('notes/public', notes_public, name= 'notes_public')
+    path('notes/public', notes_public, name= 'notes_public'),
     path('notes/<int:note_id>/done', done_note, name = 'done_note' ),
     
 ]
