@@ -17,12 +17,16 @@ def note_list(request):
         return Response(serializer_notes.data)
     elif request.method == "POST":       
         new_data = request.data
+        new_data["user"] = request.user
+        if not new_data.get('note_elements'):
+            new_data['note_elements'] = []
+        
         note_serializer = NoteSerializer(data=new_data)
         if note_serializer.is_valid():
             note_serializer.save()
             return Response(note_serializer.data)
         else:
-            return Response(note_serialized.errors)
+            return Response(note_serializer.errors)
 
 
 @api_view(['POST'])
